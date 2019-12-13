@@ -11,5 +11,4 @@ set(EXTERNAL_LIBS "Boost::program_options")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
-add_subdirectory(Generator/Cpp)
-add_subdirectory(Algorithm/Cpp)
+add_subdirectory(Sources/Cpp)

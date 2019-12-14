@@ -19,15 +19,18 @@ using std::vector;
 class Generator {
 public:
     std::stringstream
-    generate_instance(bool fair, uint64_t users_count, uint64_t l_group_count, uint64_t comments_count);
+    generate_instance_output(bool fair, uint64_t users_count, uint64_t l_group_count, uint64_t comments_count);
 
+    std::stringstream generate_instance_output(vector<string> &problem_instance);
+
+    vector<string> generate_instance(bool fair, uint64_t users_count, uint64_t l_group_count, uint64_t comments_count);
 private:
 
     vector<string> gen_user_groups(uint64_t count);
 
-    std::stringstream write_comments(uint64_t no_of_comm, vector<string> &users, uint64_t l_count);
+    vector<string> write_comments(uint64_t no_of_comm, vector<string> &users, uint64_t l_count);
 
-    std::stringstream write_fair_comments(uint64_t no_of_comm, vector<string> &users, uint64_t l_count);
+    vector<string> write_fair_comments(uint64_t no_of_comm, vector<string> &users, uint64_t l_count);
 
     static vector<string> names;
 };

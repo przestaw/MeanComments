@@ -12,19 +12,13 @@ using std::endl;
 
 using namespace boost::program_options;
 
-inline std::fstream open_output_stream(const string &filename) {
-    std::fstream ret;
-    ret.open(filename, std::ios::out);
-    return ret;
-}
-
 int main(int argc, const char *argv[]) {
     std::random_device rd;
     std::mt19937_64 randomEngine(rd());
 
     /* Initialize */
     uint64_t l_count = 0, count = 0, comments = 0, iter = 1;
-    bool fairness = false, profiling = false, file_out = false, rand_group_count = false;
+    bool fairness = false, profiling = false, file_out = false, rand_group_count = false, generating = false;
     string filename;
 
     try {
@@ -37,7 +31,8 @@ int main(int argc, const char *argv[]) {
                 ("fairness,f", value<bool>()->default_value(false), "Determines if account should be fair or not")
                 ("iter,i", value<uint64_t>()->default_value(1), "Number of iteration if profiling flag is present")
                 ("profiling,p", value<bool>()->default_value(false), "Determines if current run is for profiling")
-                ("output,o", value<string>(), "Output file, leave blank to output to stdout");
+                ("output,o", value<string>(), "Output file, leave blank to output to stdout")
+                ("generating,g", value<bool>()->default_value(false), "Determines if current run is for profiling");
 
         variables_map vm;
         store(parse_command_line(argc, argv, desc), vm);
@@ -53,6 +48,7 @@ int main(int argc, const char *argv[]) {
             l_count = vm["group_count"].as<uint64_t>();
             comments = vm["comments_count"].as<uint64_t>();
             iter = vm["iter"].as<uint64_t>();
+            generating = vm["generating"].as<bool>();
 
             if (vm["profiling"].as<bool>()) {
                 profiling = true;
@@ -76,20 +72,37 @@ int main(int argc, const char *argv[]) {
 
     Generator generator;
     Solver solver;
+    uint64_t time = 0;
 
     if (profiling) {
-        uint64_t time = 0;
         for (uint64_t i = 0; i < iter; ++i) {
             if (rand_group_count) {
                 l_count = randomEngine() % (7 * count / 10) + (3 * count / 10) + 1;
             }
-            vector<string> prob = generator.generate_instance(false, count, l_count, comments);
+            vector<string> prob = generator.generate_instance(fairness, count, l_count, comments);
             std::cerr << solver.is_fair(prob, time);
         }
-        double avg_enlapsed = time / iter;
+        double avg_enlapsed = time / (double) iter;
         cout << count << ", " << comments << ", " << avg_enlapsed << '\n';
     } else {
-        //TODO
+        if (generating) {
+            std::stringstream prob = generator.generate_instance_output(fairness, count, l_count, comments);
+            if (file_out) {
+                std::fstream file;
+                file.open(filename, std::ios::out);
+                file << prob.str();
+                file.close();
+            } else {
+                cout << prob.str();
+            }
+        } else {
+            vector<string> prob = generator.generate_instance(fairness, count, l_count, comments);
+            if (solver.is_fair(prob, time)) {
+                cout << "true\n";
+            } else {
+                cout << "false\n";
+            }
+        }
     }
     return 0;
 }

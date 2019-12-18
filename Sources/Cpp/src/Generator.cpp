@@ -7,7 +7,6 @@
 Generator::Generator(std::initializer_list<string> names_list) : randomEngine(std::random_device{}()) {
     if (names_list.size() > 2) {
         names = names_list;
-
     } else {
         throw std::length_error("Too few names one the list");
     }
@@ -22,9 +21,6 @@ vector<string> Generator::gen_user_groups(uint64_t count) {
             tempNames.push_back(iter + std::to_string(i));
         }
     }
-
-//    std::random_device rd();
-//    std::mt19937_64 randomEngine(rd());
 
     //std::shuffle(tempNames.begin(), tempNames.end(), randomEngine);
 

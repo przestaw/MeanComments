@@ -43,8 +43,6 @@ public:
 private:
     bool check_is_fair(uint64_t &time);
 
-    inline bool check_nodes();
-
     inline void add_edge_by_names(std::string &name_one, std::string &name_two);
     void clear(); // clear for next instance
 

@@ -63,53 +63,42 @@ inline void Solver::add_edge_by_names(string &name_one, string &name_two) {
 bool Solver::check_is_fair(uint64_t &time) {
     boost::chrono::high_resolution_clock::time_point start, end;
     Node *curr_node;
-    nodes[0].node_color = Node::Color::black;
-    unvisited_nodes.emplace_back(0);
 
     start = boost::chrono::high_resolution_clock::now();
-    do {
-        while (!unvisited_nodes.empty()) {
-            curr_node = &nodes[unvisited_nodes.back()];
-            unvisited_nodes.pop_back();
 
-            for (uint64_t it_no : curr_node->adjacent) {
-                Node *it = &nodes[it_no];
-                if (it->node_color == Node::Color::not_visited) {
-                    it->node_color =
-                            (curr_node->node_color == Node::Color::black)
-                            ? Node::Color::white : Node::Color::black;
-                    unvisited_nodes.push_front(it_no);
-                } else if (it->node_color == curr_node->node_color) {
-                    end = boost::chrono::high_resolution_clock::now();
-                    time += boost::chrono::duration_cast<milliseconds>(start - end).count();
-                    this->clear();
-                    return true;
+    for (auto &iter : nodes) {
+        if (iter.node_color == Node::Color::not_visited) {
+            iter.node_color = Node::Color::black;
+            unvisited_nodes.emplace_back(iter.id);
+            while (!unvisited_nodes.empty()) {
+                //pop node
+                curr_node = &nodes[unvisited_nodes.back()];
+                unvisited_nodes.pop_back();
+                //iter on adj
+                for (uint64_t it_no : curr_node->adjacent) {
+                    //color if not visited
+                    if (nodes[it_no].node_color == Node::Color::not_visited) {
+                        nodes[it_no].node_color =
+                                (curr_node->node_color == Node::Color::black)
+                                ? Node::Color::white : Node::Color::black;
+
+                        unvisited_nodes.push_front(it_no);
+                    } else if (nodes[it_no].node_color == curr_node->node_color) {
+                        end = boost::chrono::high_resolution_clock::now();
+                        time += boost::chrono::duration_cast<microseconds>(end - start).count();
+                        this->clear();
+                        return true;
+                    }
                 }
             }
         }
-    } while (this->check_nodes());
+    }
 
     end = boost::chrono::high_resolution_clock::now();
-    time += boost::chrono::duration_cast<milliseconds>(start - end).count();
+    time += boost::chrono::duration_cast<microseconds>(end - start).count();
     this->clear();
     return false;
 }
-
-inline bool Solver::check_nodes() {
-    //auto new_end = std::remove_if(nodes.begin(), nodes.end(), [](Node &node){ return node.node_color != Node::Color::not_visited;});
-    //nodes.erase(new_end, nodes.end());
-
-    //NOTE: cannot erase since it will destroy indexes or pointers
-    auto iter = std::find_if(nodes.begin(), nodes.end(),
-                             [](Node &node) { return node.node_color == Node::Color::not_visited; });
-    if (iter == nodes.end()) {
-        return false;
-    } else {
-        (*iter).node_color = Node::Color::black;
-        unvisited_nodes.emplace_back((*iter).id);
-        return true;
-    }
-};
 
 void Solver::clear() {
     nodes.clear();

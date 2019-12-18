@@ -4,22 +4,29 @@
 
 #include "Generator.h"
 
-vector<string> Generator::names({NAMES__ALL});
+Generator::Generator(std::initializer_list<string> names_list) : randomEngine(std::random_device{}()) {
+    if (names_list.size() > 2) {
+        names = names_list;
+
+    } else {
+        throw std::length_error("Too few names one the list");
+    }
+}
 
 vector<string> Generator::gen_user_groups(uint64_t count) {
     uint64_t c_mul = count / names.size();
     vector<string> tempNames;
 
     for (uint64_t i = 0; i <= c_mul; ++i) {
-        for (string iter : names) {
+        for (string &iter : names) {
             tempNames.push_back(iter + std::to_string(i));
         }
     }
 
-    std::random_device rd;
-    std::mt19937_64 randomEngine(rd());
+//    std::random_device rd();
+//    std::mt19937_64 randomEngine(rd());
 
-    std::shuffle(tempNames.begin(), tempNames.end(), randomEngine);
+    //std::shuffle(tempNames.begin(), tempNames.end(), randomEngine);
 
     tempNames.resize(count);
 
@@ -37,19 +44,20 @@ vector<string> Generator::write_comments(uint64_t no_of_comm, vector<string> &us
         r_count = count - l_count;
     }
 
-    std::random_device rd;
-    std::mt19937_64 randomEngine(rd());
-
     for (uint64_t i = 0; i < no_of_comm; ++i) {
         seed = randomEngine() % count;
         if (seed < l_count) {
             buffer.push_back(
-                    '#' + users[seed] + ": @" + users[l_count + randomEngine() % r_count] + " <Wredny Komentarz>\n");
+                    '#' + users[seed] + ": @"
+                    + users[l_count + (randomEngine() % r_count)]
+                    + " <Wredny Komentarz>\n");
         } else {
-            buffer.push_back('#' + users[seed] + ": @" + users[randomEngine() % l_count] + " <Wredny Komentarz>\n");
+            buffer.push_back(
+                    '#' + users[seed] + ": @"
+                    + users[randomEngine() % l_count]
+                    + " <Wredny Komentarz>\n");
         }
     }
-
     return buffer;
 }
 
@@ -64,16 +72,18 @@ vector<string> Generator::write_fair_comments(uint64_t no_of_comm, vector<string
         r_count = count - l_count;
     }
 
-    std::random_device rd;
-    std::mt19937_64 randomEngine(rd());
-
     for (uint64_t i = 0; i < no_of_comm; ++i) {
         seed = randomEngine() % count;
         if (seed < l_count) {
-            buffer.push_back('#' + users[seed] + ": @" + users[randomEngine() % l_count] + " <Wredny Komentarz>\n");
+            buffer.push_back(
+                    '#' + users[seed]
+                    + ": @" + users[randomEngine() % l_count]
+                    + " <Wredny Komentarz>\n");
         } else {
             buffer.push_back(
-                    '#' + users[seed] + ": @" + users[l_count + randomEngine() % r_count] + " <Wredny Komentarz>\n");
+                    '#' + users[seed]
+                    + ": @" + users[l_count + randomEngine() % r_count]
+                    + " <Wredny Komentarz>\n");
         }
     }
 
@@ -85,14 +95,12 @@ Generator::generate_instance(bool fair, uint64_t users_count, uint64_t l_group_c
     vector<string> ret;
     vector<string> users = gen_user_groups(users_count);
     uint64_t fair_comments = 1 + comments_count / 25;
+
     if (fair) {
         vector<string> in_group = write_fair_comments(fair_comments, users, l_group_count);
         ret = write_comments(comments_count - fair_comments, users, l_group_count);
 
-        std::random_device rd;
-        std::mt19937_64 randomEngine(rd());
-
-        std::for_each(in_group.begin(), in_group.end(), [&ret, &randomEngine]
+        std::for_each(in_group.begin(), in_group.end(), [&ret, this]
                 (string &line) {
             //insert at random position
             ret.insert(ret.begin() + randomEngine() % ret.size(), line);
@@ -101,6 +109,7 @@ Generator::generate_instance(bool fair, uint64_t users_count, uint64_t l_group_c
         //no need for shuffle
         ret = write_comments(comments_count, users, l_group_count);
     }
+
     return ret;
 }
 
@@ -119,5 +128,3 @@ std::stringstream Generator::generate_instance_output(vector<string> &problem_in
             (string &line) { ret << line; });
     return ret;
 }
-
-

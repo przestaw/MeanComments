@@ -1,0 +1,54 @@
+\hypertarget{classSolver}{}\subsubsection{Solver Class Reference}
+\label{classSolver}\index{Solver@{Solver}}
+
+class created to solve problem instances  
+
+{\ttfamily \#include $<$Solver.\+h$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classSolver_ad5bd9bb351afc77a23a83dc735983975}{is\+\_\+fair} (std\+::vector$<$ std\+::string $>$ \&problem\+\_\+instance, uint64\+\_\+t \&time)
+\begin{DoxyCompactList}\small\item\em loads problem instance to the object and runs check \end{DoxyCompactList}\item 
+bool \hyperlink{classSolver_a3583436284fe72faf2459461ad6de65c}{is\+\_\+fair} (std\+::stringstream \&problem\+\_\+instance, uint64\+\_\+t \&time)
+\begin{DoxyCompactList}\small\item\em loads problem instance to the object and runs check \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+class created to solve problem instances 
+
+\subsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSolver_ad5bd9bb351afc77a23a83dc735983975}\label{classSolver_ad5bd9bb351afc77a23a83dc735983975}} 
+\index{Solver@{Solver}!is\+\_\+fair@{is\+\_\+fair}}
+\index{is\+\_\+fair@{is\+\_\+fair}!Solver@{Solver}}
+\paragraph{\texorpdfstring{is\+\_\+fair()}{is\_fair()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Solver\+::is\+\_\+fair (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$ \&}]{problem\+\_\+instance,  }\item[{uint64\+\_\+t \&}]{time }\end{DoxyParamCaption})}
+
+loads problem instance to the object and runs check 
+
+\begin{DoxyParams}{Parameters}
+{\em problem\+\_\+instance} & problem instance as a vector of lines \\
+\hline
+{\em time} & reference to which time elapsed will be added \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result \+: if account is fair 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classSolver_a3583436284fe72faf2459461ad6de65c}\label{classSolver_a3583436284fe72faf2459461ad6de65c}} 
+\index{Solver@{Solver}!is\+\_\+fair@{is\+\_\+fair}}
+\index{is\+\_\+fair@{is\+\_\+fair}!Solver@{Solver}}
+\paragraph{\texorpdfstring{is\+\_\+fair()}{is\_fair()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Solver\+::is\+\_\+fair (\begin{DoxyParamCaption}\item[{std\+::stringstream \&}]{problem\+\_\+instance,  }\item[{uint64\+\_\+t \&}]{time }\end{DoxyParamCaption})}
+
+loads problem instance to the object and runs check 
+
+\begin{DoxyParams}{Parameters}
+{\em problem\+\_\+instance} & problem instance as a stream containing lines \\
+\hline
+{\em time} & reference to which time elapsed will be added \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result \+: if account is fair 
+\end{DoxyReturn}

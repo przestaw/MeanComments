@@ -4,6 +4,8 @@ project("AAL")
 set(CMAKE_C_COMPILER clang-8)
 set(CMAKE_CXX_COMPILER clang++-8)
 
+set(Boost_USE_STATIC_LIBS ON)
+
 set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 cmake_policy(SET CMP0069 NEW)

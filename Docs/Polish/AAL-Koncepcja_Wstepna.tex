@@ -1,10 +1,40 @@
 % !TEX TS-program = pdflatex
 % !TEX encoding = UTF-8 Unicode
 
-\documentclass[11pt]{article} % use larger type; default would be 10pt
+\documentclass[11pt]{article}
+% \usepackage{polish}
+\usepackage[utf8]{inputenc} 
+\usepackage[parfill]{parskip}
+\usepackage[T1]{fontenc} 
 
-\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
-\usepackage[T1]{fontenc} %font encoding ? --> need to clarify that
+\usepackage{fixltx2e}
+\usepackage{calc}
+\usepackage{doxygen}
+\usepackage[export]{adjustbox} % also loads graphicx
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage{multirow}
+\PassOptionsToPackage{warn}{textcomp}
+\usepackage{textcomp}
+\usepackage[nointegrals]{wasysym}
+\usepackage[table]{xcolor}
+
+% Font selection
+\usepackage[T1]{fontenc}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+\usepackage{amssymb}
+\usepackage{sectsty}
+\renewcommand{\familydefault}{\sfdefault}
+\allsectionsfont{%
+	\fontseries{bc}\selectfont%
+	\color{darkgray}%
+}
+\renewcommand{\DoxyLabelFont}{%
+	\fontseries{bc}\selectfont%
+	\color{darkgray}%
+}
+\newcommand{\+}{\discretionary{\mbox{\scriptsize$\hookleftarrow$}}{}{}}
 
 %%% PAGE DIMENSIONS
 \usepackage{geometry} % to change the page dimensions
@@ -21,6 +51,22 @@
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
+\usepackage{graphicx} 
+\graphicspath{ {./images/} }
+
+\usepackage{ifpdf}
+\ifpdf
+\usepackage[pdftex,pagebackref=true]{hyperref}
+\else
+\usepackage[ps2pdf,pagebackref=true]{hyperref}
+\fi
+\hypersetup{%
+	colorlinks=true,%
+	linkcolor=blue,%
+	citecolor=blue,%
+	unicode%
+}
+
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
@@ -37,14 +83,22 @@
 \date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
+
 \begin{document}
-\maketitle
+	  \hypersetup{pageanchor=false,
+		bookmarksnumbered=true,
+		pdfencoding=unicode
+	}
+	\maketitle
+	\setcounter{secnumdepth}{3}
+	\setcounter{tocdepth}{3}
+	\tableofcontents
+	\clearpage
 
 \section{Opis Zagadnienia}
 \subsection{Zadane polecenie}
-\paragraph{}
-    Detektyw Karczoch poszukuje nieuczciwych kont na instagramie. Do tego celu analizuje komentarze dotyczące zamieszczanych zdjęć — wie, że takie konta często walczą między sobą, kupując zwolenników i malkontentów. W komentarzach do takich kont, ludzie z jednej grupy piszą tylko do ludzi z drugiej i odwrotnie. Detektyw Karczoch wie, że zwolennik nigdy nie rozmawia z innym zwolennikiem, a malkontent z malkontentem - to dla nich strata czasu.
-\paragraph{}    
+    Detektyw Karczoch poszukuje nieuczciwych kont na instagramie. Do tego celu analizuje komentarze dotyczące zamieszczanych zdjęć — wie, że takie konta często walczą między sobą, kupując zwolenników i malkontentów. W komentarzach do takich kont, ludzie z jednej grupy piszą tylko do ludzi z drugiej i odwrotnie. Detektyw Karczoch wie, że zwolennik nigdy nie rozmawia z innym zwolennikiem, a malkontent z malkontentem - to dla nich strata czasu.\\
+    
 	Zadanie : \textsl{Przygotować program, który na podstawie zamieszczonych komentarzy oceni, czy dane konto jest nieuczciwe.}
 
 \subsection{Przykładowe dane wejściowe}
@@ -70,12 +124,13 @@
 \item
 Zakładam, że treść komentarza nie ma znaczenia więc dla opisanego celu liczy się jedynie adresat komentarza.
 \item
-Zakładam, że pojedyńczy komentarz może nie mieć adresata lub mieć dokładnie jednego adresata.
+Zakładam, że pojedynczy komentarz może nie mieć adresata lub mieć dokładnie jednego adresata.
 \item
-Zakładam, że istnienie pojedyńczych komentarzy od osób które nie adresują do nikogo komentarzy ani nie są adresatami żadnego komentarza nie ma znaczenia dla rozstrzygnięcia uczciwości konta
+Zakładam, że istnienie pojedynczych komentarzy od osób które nie adresują do nikogo komentarzy ani nie są adresatami żadnego komentarza nie ma znaczenia dla rozstrzygnięcia uczciwości konta
 \end{itemize}
-\section{Opis Algorytmu}
-\subsection{Uzywane pojęcia}
+
+\section{Koncepcja Algorytmu}
+\subsection{Używane pojęcia}
 Przy opisie algorytmu stosuje następujące odwzorowanie:
 \begin{itemize}
 \item
@@ -84,28 +139,27 @@ Każdy komentujący jest reprezentowany przez wierzchołek grafu.
 Komentarz adresowany do innego użytkownika jest reprezentowany przez krawędź w grafie.
 \item
 Wiele komentarzy pomiędzy dwoma użytkownikami nie jest odwzorowane jako wielokrotne krawędzie lub krawędzie ważone.\\
- \textsl{Istotny jest fakt komunikacji 2 komentujących, a nie jej objęctość}
+ \textsl{Istotny jest fakt komunikacji 2 komentujących, a nie jej objętość}
 \item
-Komentarz jest odwzorowany jako krawędz nieskierowana. \\
-\textsl{Istotny jest fakt komunikacji 2 komentujących, a nie który z urzytkowników napisał do którego}
+Komentarz jest odwzorowany jako krawędź nieskierowana. \\
+\textsl{Istotny jest fakt komunikacji 2 komentujących, a nie który z użytkowników napisał do którego}
 \end{itemize}
 \subsection{Zarys działania}
-\begin{paragraph}{Opis :\\}
-   Proponowany algorytm opiera się na założeniu, że istnienie 2 grup \textsl{[zwolenników i malkontentów]}, które nie piszą komentarzy wewnątrz swoich grup jest równoznaczne z możliwością podzielenia wierzchołków grafu na 2 cześci w których nie ma krawędzi \textsl{[dwudzielnosc grafu]}. Pojedyńcze wierzchołki\textsl{[uzrytkownicy którzy nie piszą do nikogo, ani nie są adresatami wiadomości]} nie mają znaczenia dla rozstrzygnięcia dwudzielności grafu.
-\end{paragraph}
-\paragraph{Szkic kroków : }
+\paragraph{Opis :\\}
+   Proponowany algorytm opiera się na założeniu, że istnienie 2 grup \textsl{[zwolenników i malkontentów]}, które nie piszą komentarzy wewnątrz swoich grup jest równoznaczne z możliwością podzielenia wierzchołków grafu na 2 części w których nie ma krawędzi \textsl{[dwudzielność grafu]}. Pojedyncze wierzchołki\textsl{[użytkownicy którzy nie piszą do nikogo, ani nie są adresatami wiadomości]} nie mają znaczenia dla rozstrzygnięcia dwudzielności grafu.
+\paragraph{Szkic kroków}
 \renewcommand{\labelenumi}{\arabic{enumi}}
 \begin{enumerate}
 \item
-Wczytanie listy komentarzy ze standardowego wejścia lub pliku tworząc graf identyfikowany nazwami urzytkowników
+Wczytanie listy komentarzy ze standardowego wejścia lub pliku tworząc graf identyfikowany nazwami użytkowników
 \item
-Usunięcie wierzchołków nieposiadających krawędzi.
+Usunięcie pętli, wierzchołków nieposiadających oraz powtarzających się krawędzi [np poprzez niedodawanie ich do grafu wynikowego]
 \item
 Przejście po wierzchołkach "kolorując" je na przeciwne kolory zaczynając od dowolnego niepokolorowanego. Następne wierzchołki brane z kolejki.
 \renewcommand{\labelenumii}{\Roman{enumii}}
 \begin{enumerate}
 \item
-Koloruj wierzchołki sąsiednie na przeciwny kolor. Umieść niepokolorowane wcześniej wierzchołki w kolejce.
+Koloruj wierzchołki sąsiednie na przeciwny kolor. Umieść niepokolorowane wcześniej wierzchołki w kolejce do odwiedzenia.
 \item
 Gdy wierzchołek po drugiej stronie krawędzi jest w tym samym kolorze: \\STOP --> \textsl{Konto jest uczciwe.}
 \end{enumerate}
@@ -114,32 +168,36 @@ Usuń pokolorowane wierzchołki.
 \item
 Jeśli graf niepusty: idź do 3 --> \textsl{Przetwarzanie kolejnego spójnego podgrafu},\\ jeśli pusty: KONIEC --> \textsl{Konto nie jest uczciwe}
 \end{enumerate}
-\section{Złożoność Alorytmu}
-\subsection{Analiza Złożoności Algorytmu}
+\subsection{Złożoność Algorytmu}
+\subsubsection{Analiza Złożoności Algorytmu}
 Algorytm iteruje po wszystkich wierzchołkach, a w ramach każdego z wierzchołków po wszystkich jego krawędziach.\\
-Z tego wynika, że złożoność pesymistyczna algorytmu powinna być klasy \textbf{O(V+E)}, gdzie \textbf{V} to ilość wierzchołków, a \textbf{E} ilość krawędzi w grafie.
-\subsection{Metoda pomiarów}
+Z tego wynika, że złożoność pesymistyczna algorytmu powinna być klasy \textit{O(V+E)}, gdzie \textit{V} to ilość wierzchołków, a \textit{E} ilość krawędzi w grafie.
+\subsubsection{Przyjęta koncepcja pomiarów}
 Algorytm w przypadku konta uczciwego może zakończyć się wcześniej, więc aby sprawdzać złożoność algorytmu należy mierzyć czasy wykonania analizy nieuczciwych kont. Aby profilować sam algorytm, mierzony powinien być jedynie czas spędzony na obliczeniach więc będzie on mierzony dopiero po wczytaniu całego grafu z pliku do pamięci. \\\\
 Dla wybranych wielkości grafu mierzony byłby czas dla kilku danych testowych. Analiza byłaby wykonana osobno ze względu na ilość krawędzi \textsl{[przy stałej ilości wierzchołków]}, oraz na ilość wierzchołków \textsl{[przy stałej ilości krawędzi, jednak większej od liczby wierzchołków]}.
-\section{Implementacja}
+\section{Założenia Implementacyjne}
 \subsection{Technologie planowane do wykorzystania}
 \begin{itemize}
 \item
 \textsl{C++} jako język do implementacji struktury grafu i algorytmu.
 \item
-\textsl{Python} lub \textsl{C++} jako zewnętrzny program do generowania plików z komentarzami.
+Program do generowania plików z komentarzami zintegrowany z głównym programem
 \item
 \textsl{boost::chrono} w celu pomiaru czasu spędzonego przez algorytm na procesorze. 
+\item
+\textsl{CMake} jako narzędzie do zarządzania projektem i jego budowaniem
+\item
+\textsl{doxygen} jako narzędzie do generowania dokumentacji kodu źródłowego
 \end{itemize}
 \subsection{Struktury danych}
 \begin{itemize}
 \item
-"Node" - \textsl{jako klasa zawierająca nazwe użytkownika, pole określające kolor, identfikowana przez numer pozycji w dynamicznej tablicy}
+"Node" - \textsl{jako klasa zawierająca nazwę użytkownika, pole określające kolor, identyfikowana przez numer pozycji w dynamicznej tablicy}
 \begin{itemize}[\textsl{W Node} :]
 \item
 vector<int> - \textsl{przechowuje wierzchołki sąsiednie.}
 \item
-enum "Kolor" - \textsl{określa czy wierzchołek był odwiedzony oraz kolor odwiedzoneo wierzchołka.}
+enum "Kolor" - \textsl{określa czy wierzchołek był odwiedzony oraz kolor odwiedzonego wierzchołka.}
 \end{itemize}
 \item
 map<String, int> - \textsl{zapewniająca odwzorowanie nazwy użytkownika na pozycję w tablicy} \\ 
@@ -147,12 +205,11 @@ map<String, int> - \textsl{zapewniająca odwzorowanie nazwy użytkownika na pozy
 \item
 vector<Node> - \textsl{kontener przechowujący wierzchołki}\\ 
 \textsl{Zapewnia dostęp do wierzchołka poprzez numer} 
-\item list<int> lub queue<int> - \textsl{przechowuje listę wierzchołków do odwiedzenia, umieszczane są w niej kolejni nieodwiedzeni sąsiedzi przetwarzanego wierzchołka}
-\item
-"Graph" - \textsl{wszystkie struktury danych w ramach makroklasy} 
+\item 
+list<int> - \textsl{przechowuje listę wierzchołków do odwiedzenia, umieszczane są w niej kolejni nieodwiedzeni sąsiedzi przetwarzanego wierzchołka}
 \end{itemize}
 \section{Generowanie danych wejściowych}
-\subsection{Parametry:}
+\subsection{Parametry}
 \begin{itemize}
 \item
 liczebność wierzchołków w grafie lub liczebność obu grup z osobna
@@ -163,7 +220,43 @@ uczciwość konta
 \item
 nazwa pliku wyjściowego
 \end{itemize}
-\subsection{Zarys działania:}
-  Przy generowaniu danych w pierwszym kroku tworzone są 2 grupy wierzchołków o podanych licznościach lub wedle losowego podziału jednej liczby na wejściu. Następnie tworzone są krawędzie \textsl{[komentarze]} poprzez losowanie po jednym wierzchołku z każdej grupy. W przypadku zadania parametrem uczciwości konta dodawane są w małej liczbie krawędzie w obrębie grup stworzonych wcześniej. Jako ostatni etap występuje zapis danych do pliku gdzie dla każdej krawędzi losowany jest jeden ze zdefiniowanych w programi komentarzy \textsl{[dla uwiarygodnienia danych wyjściowych]}.\\
-  Struktury danych analogiczne do wykorzystywanych w algorytmie.
+\subsection{Zarys działania}
+  Przy generowaniu danych w pierwszym kroku tworzone są 2 grupy wierzchołków o podanych licznościach lub wedle losowego podziału jednej liczby na wejściu. Następnie tworzone są krawędzie \textsl{[komentarze]} poprzez losowanie po jednym wierzchołku z każdej grupy. W przypadku zadania parametrem uczciwości konta dodawane są w małej liczbie krawędzie w obrębie grup stworzonych wcześniej. Jako ostatni etap występuje zapis danych do pliku gdzie dla każdej krawędzi podstawiane są nazwy użytkowników oraz format linii \textsl{[dla uwiarygodnienia danych wyjściowych]}.\\
+\paragraph{Struktury danych}
+\begin{itemize}
+	\item 
+  String - \textsl{przechowuje linię komentarza zakończoną znakiem nowej linii lub login użytkownika}
+ 	\item
+  vector<String> - \textsl{kontener przechowujący loginy użytkowników}
+  	\item 
+  vector<String> - \textsl{kontener przechowujący komentarze użytkowników}
+
+\end{itemize}
+\section{Testy i weryfikacja działania}
+\subsection{Metodyka}
+Czas wykonani algorytmu był mierzony po wczytaniu oraz przygotowaniu grafu a pomocą biblioteki \textsl{boost::chrono} obliczając odległość pomiędzy początkiem a końcem algorytmu. Zgodnie z wcześniej przyjętym założeniem mierzone były jedynie problemy dające wynik nieuczciwy by badać pesymistyczną złożoność algorytmu. Testy zostały przeprowadzone poprzez skorzystanie z trybu profilowania stworzonego programu, dla każdej pary: \textsl{ilości użytkowników i komentarzy} dokonano 100 wykonań algorytmu przyjmując do dalszej analizy wartość średnią dzięki czemu wszelkie wstępne opóźnienia pierwszych wykonań zmniejszają swój wpływ na wynik. Pomiarów dokonano na nieobciążonej innymi zadaniami maszynie stacjonarnej obciążając 1 z 6 dostępnych rdzeni procesora by wpływ działającego systemu był minimalny.
+\subsection{Analiza wyników}
+  \clearpage
+\subsection{Wizualizacja wyników pod kątem złożoności algorytmu}
+  \subsubsection{Czas od ilości komentarzy}
+  \textsl{Dla ustalonego rozmiaru grup o losowej proporcji, średnia dla 100 wykonań}\\
+  \begin{centering}
+  	\includegraphics[width=\textwidth]{Wykres1}
+  \end{centering}
+  
+  \clearpage
+  \subsubsection{Czas od ilości użytkowników}
+  \textsl{Dla ustalonej ilości komentarzy, dla grup o losowej proporcji, średnia dla 100 wykonań}\\
+  \begin{centering}
+  	\includegraphics[width=\textwidth]{Wykres2}
+  \end{centering}
+
+
+\clearpage  
+\section{Dokumentacja kodu źródłowego - \textit{English}}
+\subsection{Class Index}
+\input{annotated}
+\subsection{Class Documentation}
+ \input{classGenerator}
+ \input{classSolver}  
 \end{document}

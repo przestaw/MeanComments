@@ -1,0 +1,95 @@
+\hypertarget{classGenerator}{}\subsubsection{Generator Class Reference}
+\label{classGenerator}\index{Generator@{Generator}}
+
+\hyperlink{classGenerator}{Generator} class for problem instances generation.  
+
+{\ttfamily \#include $<$Generator.\+h$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGenerator_a1ce5bb44188a5462036c68bf015ae0d8}{Generator} (std\+::initializer\+\_\+list$<$ string $>$ names\+\_\+list=N\+A\+M\+E\+S\+\_\+\+\_\+\+A\+LL)
+\begin{DoxyCompactList}\small\item\em Constructor for the generator. \end{DoxyCompactList}\item 
+std\+::stringstream \hyperlink{classGenerator_a2873be94ef5a7ee92c64bf01dc42bd98}{generate\+\_\+instance\+\_\+output} (bool fair, uint64\+\_\+t users\+\_\+count, uint64\+\_\+t l\+\_\+group\+\_\+count, uint64\+\_\+t comments\+\_\+count)
+\begin{DoxyCompactList}\small\item\em Generates problem instance according to parameters as a stream. \end{DoxyCompactList}\item 
+std\+::stringstream \hyperlink{classGenerator_a539c68811602cc9ac9db58ff129249b8}{generate\+\_\+instance\+\_\+output} (vector$<$ string $>$ \&problem\+\_\+instance)
+\begin{DoxyCompactList}\small\item\em Creates printable stream from a vector of lines. \end{DoxyCompactList}\item 
+vector$<$ string $>$ \hyperlink{classGenerator_a60599c686935e3e60e9c553b09890d2c}{generate\+\_\+instance} (bool fair, uint64\+\_\+t users\+\_\+count, uint64\+\_\+t l\+\_\+group\+\_\+count, uint64\+\_\+t comments\+\_\+count)
+\begin{DoxyCompactList}\small\item\em Generates problem instance according to parameters as a vector of lines. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+\subsubsection{Detailed Description}
+\hyperlink{classGenerator}{Generator} class for problem instances generation. 
+
+\subsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGenerator_a1ce5bb44188a5462036c68bf015ae0d8}\label{classGenerator_a1ce5bb44188a5462036c68bf015ae0d8}} 
+\index{Generator@{Generator}!Generator@{Generator}}
+\index{Generator@{Generator}!Generator@{Generator}}
+\paragraph{\texorpdfstring{Generator()}{Generator()}}
+{\footnotesize\ttfamily Generator\+::\+Generator (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ string $>$}]{names\+\_\+list = {\ttfamily NAMES\+\_\+\+\_\+ALL} }\end{DoxyParamCaption})}
+
+Constructor for the generator. 
+
+Wraps random number generator and basic list of names for login creation. Stateless excluding R\+NG state. 
+\begin{DoxyParams}{Parameters}
+{\em names\+\_\+list} & list of names to be used, default is list of polish names from wikipedia.\+org \\
+\hline
+\end{DoxyParams}
+
+\subsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGenerator_a60599c686935e3e60e9c553b09890d2c}\label{classGenerator_a60599c686935e3e60e9c553b09890d2c}} 
+\index{Generator@{Generator}!generate\+\_\+instance@{generate\+\_\+instance}}
+\index{generate\+\_\+instance@{generate\+\_\+instance}!Generator@{Generator}}
+\paragraph{\texorpdfstring{generate\+\_\+instance()}{generate\_instance()}}
+{\footnotesize\ttfamily vector$<$ string $>$ Generator\+::generate\+\_\+instance (\begin{DoxyParamCaption}\item[{bool}]{fair,  }\item[{uint64\+\_\+t}]{users\+\_\+count,  }\item[{uint64\+\_\+t}]{l\+\_\+group\+\_\+count,  }\item[{uint64\+\_\+t}]{comments\+\_\+count }\end{DoxyParamCaption})}
+
+Generates problem instance according to parameters as a vector of lines. 
+
+\begin{DoxyParams}{Parameters}
+{\em fair} & determine if account should be fair or not \\
+\hline
+{\em users\+\_\+count} & count of all users \\
+\hline
+{\em l\+\_\+group\+\_\+count} & count of one of the \char`\"{}groups\char`\"{} commenting \\
+\hline
+{\em comments\+\_\+count} & number of comments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+problem instance in a vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGenerator_a2873be94ef5a7ee92c64bf01dc42bd98}\label{classGenerator_a2873be94ef5a7ee92c64bf01dc42bd98}} 
+\index{Generator@{Generator}!generate\+\_\+instance\+\_\+output@{generate\+\_\+instance\+\_\+output}}
+\index{generate\+\_\+instance\+\_\+output@{generate\+\_\+instance\+\_\+output}!Generator@{Generator}}
+\paragraph{\texorpdfstring{generate\+\_\+instance\+\_\+output()}{generate\_instance\_output()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::stringstream Generator\+::generate\+\_\+instance\+\_\+output (\begin{DoxyParamCaption}\item[{bool}]{fair,  }\item[{uint64\+\_\+t}]{users\+\_\+count,  }\item[{uint64\+\_\+t}]{l\+\_\+group\+\_\+count,  }\item[{uint64\+\_\+t}]{comments\+\_\+count }\end{DoxyParamCaption})}
+
+Generates problem instance according to parameters as a stream. 
+
+\begin{DoxyParams}{Parameters}
+{\em fair} & determine if account should be fair or not \\
+\hline
+{\em users\+\_\+count} & count of all users \\
+\hline
+{\em l\+\_\+group\+\_\+count} & count of one of the \char`\"{}groups\char`\"{} commenting \\
+\hline
+{\em comments\+\_\+count} & number of comments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+problem instance in a stream 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGenerator_a539c68811602cc9ac9db58ff129249b8}\label{classGenerator_a539c68811602cc9ac9db58ff129249b8}} 
+\index{Generator@{Generator}!generate\+\_\+instance\+\_\+output@{generate\+\_\+instance\+\_\+output}}
+\index{generate\+\_\+instance\+\_\+output@{generate\+\_\+instance\+\_\+output}!Generator@{Generator}}
+\paragraph{\texorpdfstring{generate\+\_\+instance\+\_\+output()}{generate\_instance\_output()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::stringstream Generator\+::generate\+\_\+instance\+\_\+output (\begin{DoxyParamCaption}\item[{vector$<$ string $>$ \&}]{problem\+\_\+instance }\end{DoxyParamCaption})}
+
+Creates printable stream from a vector of lines. 
+
+\begin{DoxyParams}{Parameters}
+{\em problem\+\_\+instance} & problem instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+problem instance in a stream 
+\end{DoxyReturn}

@@ -21,6 +21,9 @@ int main(int argc, const char *argv[]) {
     bool fairness = false, profiling = false, file_out = false, rand_group_count = false, generating = false;
     string filename;
 
+    /*
+     * Using boost to parse program options
+     */
     try {
         options_description desc{"Options"};
         desc.add_options()
@@ -80,10 +83,11 @@ int main(int argc, const char *argv[]) {
                 l_count = randomEngine() % (7 * count / 10) + (3 * count / 10) + 1;
             }
             vector<string> prob = generator.generate_instance(fairness, count, l_count, comments);
-            std::cerr << solver.is_fair(prob, time);
+            solver.is_fair(prob, time);
+//            std::cerr << solver.is_fair(prob, time);
         }
-        double avg_enlapsed = time / (double) iter;
-        cout << count << ", " << comments << ", " << avg_enlapsed << '\n';
+        double avg_time = (time * 1.) / iter;
+        cout << count << ", " << comments << ", " << avg_time << '\n';
     } else {
         if (generating) {
             std::stringstream prob = generator.generate_instance_output(fairness, count, l_count, comments);

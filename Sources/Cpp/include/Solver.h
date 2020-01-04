@@ -82,6 +82,7 @@ private:
      * @param name_two second name
      */
     inline void add_edge_by_names(std::string &name_one, std::string &name_two);
+
     /**
      * Clears graph after running algorithm to prepare it for next instance
      */

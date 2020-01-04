@@ -18,7 +18,7 @@ int main(int argc, const char *argv[]) {
 
     /* Initialize */
     uint64_t l_count = 0, count = 0, comments = 0, iter = 1;
-    bool fairness = false, profiling = false, file_out = false, rand_group_count = false, generating = false;
+    bool fairness = false, profiling = false, generating = false, input = false, file_out = false, rand_group_count = false;
     string filename;
 
     /*
@@ -32,9 +32,10 @@ int main(int argc, const char *argv[]) {
                 ("users_count", value<uint64_t>()->required(), "Count of users")
                 ("group_count", value<uint64_t>()->default_value(0), "Count of one group of users if account is fair")
                 ("fairness,f", value<bool>()->default_value(false), "Determines if account should be fair or not")
-                ("iter,i", value<uint64_t>()->default_value(1), "Number of iteration if profiling flag is present")
+                ("iter", value<uint64_t>()->default_value(1), "Number of iteration if profiling flag is present")
                 ("profiling,p", value<bool>()->default_value(false), "Determines if current run is for profiling")
                 ("output,o", value<string>(), "Output file, leave blank to output to stdout")
+                ("input,i", value<string>(), "Input file")
                 ("generating,g", value<bool>()->default_value(false), "Determines if current run is for profiling");
 
         variables_map vm;
@@ -61,14 +62,23 @@ int main(int argc, const char *argv[]) {
             } else {
                 if (vm.count("output")) {
                     file_out = true;
+                    filename = vm["output"].as<std::string>();
                 }
                 if (l_count == 0) {
                     l_count = randomEngine() % (9 * count) / 10 + count / 10 + 1;
                 }
             }
+
+            if (!generating && !profiling) {
+                if (vm.count("input")) {
+                    input = true;
+                    filename = vm["input"].as<std::string>();
+                } else {
+                    throw error("\"input\" is required option when not profiling and not generating");
+                }
+            }
         }
-    }
-    catch (const error &ex) {
+    } catch (const error &ex) {
         std::cerr << ex.what() << " !\n";
         return -1;
     }
@@ -84,7 +94,6 @@ int main(int argc, const char *argv[]) {
             }
             vector<string> prob = generator.generate_instance(fairness, count, l_count, comments);
             solver.is_fair(prob, time);
-//            std::cerr << solver.is_fair(prob, time);
         }
         double avg_time = (time * 1.) / iter;
         cout << count << ", " << comments << ", " << avg_time << '\n';
@@ -99,8 +108,13 @@ int main(int argc, const char *argv[]) {
             } else {
                 cout << prob.str();
             }
-        } else {
-            vector<string> prob = generator.generate_instance(fairness, count, l_count, comments);
+        } else if (input) {
+            std::stringstream prob;
+            std::fstream file;
+            file.open(filename, std::ios::in);
+            prob << file.rdbuf();
+            file.close();
+
             if (solver.is_fair(prob, time)) {
                 cout << "true\n";
             } else {

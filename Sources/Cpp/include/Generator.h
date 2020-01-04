@@ -55,6 +55,7 @@ public:
      * @return problem instance in a vector
      */
     vector<string> generate_instance(bool fair, uint64_t users_count, uint64_t l_group_count, uint64_t comments_count);
+
 private:
     /**
      * Internal method for generating random group of users

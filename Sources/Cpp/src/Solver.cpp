@@ -37,8 +37,6 @@ inline void Solver::add_edge_by_names(string &name_one, string &name_two) {
         node_one = nodes.size();
         nodes.emplace_back(node_one);
         node_names.emplace(name_one, node_one);
-
-        nodes[node_one].name = name_one;
     } else {
         node_one = node_names[name_one];
     }
@@ -47,8 +45,6 @@ inline void Solver::add_edge_by_names(string &name_one, string &name_two) {
         node_two = nodes.size();
         nodes.emplace_back(node_two);
         node_names.emplace(name_two, node_two);
-
-        nodes[node_two].name = name_two;
     } else {
         node_two = node_names[name_two];
     }
@@ -107,6 +103,4 @@ void Solver::clear() {
 }
 
 Solver::Node::Node(uint64_t id)
-        : id(id), node_color(Color::not_visited) {
-    node_color = Color::not_visited;
-}
+        : id(id), node_color(Color::not_visited) {}

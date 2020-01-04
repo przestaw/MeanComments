@@ -21,8 +21,7 @@ vector<string> Generator::gen_user_groups(uint64_t count) {
             tempNames.push_back(iter + std::to_string(i));
         }
     }
-
-    //std::shuffle(tempNames.begin(), tempNames.end(), randomEngine);
+    std::shuffle(tempNames.begin(), tempNames.end(), randomEngine);
 
     tempNames.resize(count);
     return tempNames;
@@ -38,22 +37,22 @@ vector<string> Generator::write_comments(uint64_t no_of_comm, vector<string> &us
     } else {
         r_count = count - l_count;
     }
-
-    if(users.size() > no_of_comm){
-        for(uint64_t i = 0; i < l_count; ++i){
+/*
+    if (users.size() > no_of_comm) {
+        for (uint64_t i = 0; i < l_count; ++i) {
             buffer.push_back(
                     '#' + users[i] + ": @"
                     + users[l_count + (randomEngine() % r_count)]
                     + " <Wredny Komentarz>\n");
         }
 
-        for(uint64_t i = 0; i < r_count; ++i) {
+        for (uint64_t i = 0; i < r_count; ++i) {
             buffer.push_back(
                     '#' + users[i] + ": @"
                     + users[randomEngine() % l_count]
                     + " <Wredny Komentarz>\n");
         }
-    }
+    }*/
 
     for (uint64_t i = 0; i < no_of_comm; ++i) {
         seed = randomEngine() % count;

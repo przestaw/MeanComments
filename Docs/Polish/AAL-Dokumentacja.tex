@@ -2,7 +2,6 @@
 % !TEX encoding = UTF-8 Unicode
 
 \documentclass[11pt]{article}
-% \usepackage{polish}
 \usepackage[utf8]{inputenc} 
 \usepackage[parfill]{parskip}
 \usepackage[T1]{fontenc} 
@@ -241,7 +240,7 @@ Wykonano pomiary dla liczności użytkowników : \\
 \textit{250 500 750 1000 2500 5000 7500 10000 25000} \\
 i liczności komentarzy:\\
 \textit{250 500 750 1000 2500 5000 7500 10000 25000 50000 100000 250000 500000 1000000 2500000 5000000}.\\
-Zachowując realizm testowano dla liczby komentarzy conajmniej równej ilości użytkowników oraz dla największych liczb komentarzy \textit{[ 2500000 od 2500 użytkowników wzwyż, 5000000 od 5000]}\\
+Zachowując realizm testowano dla liczby komentarzy co najmniej równej ilości użytkowników oraz dla największych liczb komentarzy \textit{[ 2500000 od 2500 użytkowników wzwyż, 5000000 od 5000]}\\
 Pewien wpływ na wyniki dla dużych ilości komentarzy może mieć fakt, że wiele komentarzy pomiędzy 2 użytkownikami jest interpretowane jako jedna krawędź.\\\\
 Ze względu na różnice wartości liczby użytkowników \textit{[wierzchołków - V]} oraz komentarzy \textit{[krawędzi - E]} zastosowano skalę logarytmiczno-logarytmiczną na wykresach.
 \subsection{Wizualizacja wyników pod kątem złożoności algorytmu}
@@ -266,9 +265,9 @@ Ze względu na różnice wartości liczby użytkowników \textit{[wierzchołków
 Wyniki testów zostały poddane analizie w programie \textit{gnumeric} czego efektem są powyższe wykresy. Ponadto trójki wartości \textit{[liczba użytkowników][liczba komentarzy][czas]} zostały poddane regresji liniowej. Dla regresji wszystkich wartości współczynnik korelacji pomiędzy ilością komentarzy, a czasem \textit{[miarą złożoności problemu]} wynosi : \textit{0.93} co można uznać za złożoność \textit{O(E)} względem liczby krawędzi \textit{E}. Wniosek ten potwierdza obserwacja wykresu.
 \\
 Dla liczności grupy sytuacja jest nieco bardziej złożona ponieważ korelacja dla całego zbioru wartości wynosi \textit{0.66} co nie dowodzi zależności liniowej. Jednak  
-obserwując wykres widzimy, że dla odpowiednio dużych wartości wypłaszacza się on i ma skośną asymptotę liniową.
+obserwując wykres widzimy, że dla odpowiednio dużych wartości stopniowo wypłaszacza się i ma skośną asymptotę liniową.
 \\
-Ponieważ zależność pomiędzy złożonością a \textit{E} i \textit{V} jest liniowa to wynikowa złożoność może przedstawiać się jako \textit{O(V*E)} lub \textit{O(V+E)}. Analiza z użyciem regresji liniowej dla 2 zmiennych próbek o liczbie użytkowników większej od 250 daje współczynniki \textit{0.22} dla zależności z \textit{E} oraz \textit{0.0034} dla zależności z \textit{V} oraz zbieżność na poziomie \textit{0.97} 
+Ponieważ zależność pomiędzy złożonością a \textit{E} i \textit{V} jest liniowa to wynikowa złożoność może przedstawiać się jako \textit{O(V*E)} lub \textit{O(V+E)}. Analiza z użyciem regresji liniowej dla 2 zmiennych, próbek o liczbie użytkowników większej od 250 daje zbieżność na poziomie \textit{0.97} 
 \\ 
 Podsumowując: przeprowadzony eksperyment dowodzi, że zaproponowany algorytm ma pesymistyczna złożoność \textit{O(V+E)}
 \clearpage  

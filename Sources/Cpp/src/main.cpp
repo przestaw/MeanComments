@@ -28,8 +28,8 @@ int main(int argc, const char *argv[]) {
         options_description desc{"Options"};
         desc.add_options()
                 ("help,h", "Help screen")
-                ("comments_count,c", value<uint64_t>()->required(), "Count of one of the comments")
-                ("users_count", value<uint64_t>()->required(), "Count of users")
+                ("comments_count,c", value<uint64_t>()->default_value(10), "Count of one of the comments")
+                ("users_count", value<uint64_t>()->default_value(5), "Count of users")
                 ("group_count", value<uint64_t>()->default_value(0), "Count of one group of users if account is fair")
                 ("fairness,f", value<bool>()->default_value(false), "Determines if account should be fair or not")
                 ("iter", value<uint64_t>()->default_value(1), "Number of iteration if profiling flag is present")

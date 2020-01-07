@@ -233,6 +233,36 @@ nazwa pliku wyjściowego
   vector<String> - \textsl{kontener przechowujący komentarze użytkowników}
 
 \end{itemize}
+\section{Opcje Programu}
+\subsection{Opcje}
+Program umożliwia profilowanie algorytmu, generowanie oraz rozwiązywanie problemów.
+\\\\
+W przypadku podania wielu opcji profilowanie ma największy priorytet, następnie generowanie problemów. Natomiast rozwiązywanie problemów jest wykonywane w przypadku nie podania innych opcji.
+\\\\
+W przypadku podania rozmiaru jednej z grup równego 0 rozmiary grup są każdorazowo losowane.
+\subsection{Parametry}
+\begin{itemize} 
+\item
+\textit{-h [ - -help ]} - ekran z objaśnieniami
+\item
+\textit{-o [ - -output ]} - plik wyjściowy dla generowanych problemów [przy braku problem jest wypisywany na sdtout]
+\item
+\textit{-i [ - -input ] } - plik wejściowy do analizy   
+\item
+\textit{--iter\ arg (=1)} - liczba iteracji przy profilowaniu algorytmu
+\item
+\textit{-p [ - -profiling ]} - określa czy algorytm ma być profilowany
+\item
+\textit{-g [ - -generating ]} - określa czy ma zostać wygenerowany problem
+\item
+\textit{-c [ - -comments\_count (=10)]} - całkowita liczba komentarzy [dla generowanych problemów]
+\item
+\textit{- -users\_count (=5) } - całkowita liczba użytkowników [dla generowanych problemów]
+\item
+\textit{- -group\_count} - liczność jednej z grup [ma znaczenie przy generowaniu uczciwych problemów]
+\item
+\textit{-f [ - -fairness ]} - [dla generowanych problemów]
+\end{itemize}
 \section{Testy i weryfikacja działania}
 \subsection{Metodyka}
 Czas wykonani algorytmu był mierzony po wczytaniu oraz przygotowaniu grafu a pomocą biblioteki \textsl{boost::chrono} obliczając odległość pomiędzy początkiem a końcem algorytmu. Zgodnie z wcześniej przyjętym założeniem mierzone były jedynie problemy dające wynik nieuczciwy by badać pesymistyczną złożoność algorytmu. Testy zostały przeprowadzone poprzez skorzystanie z trybu profilowania stworzonego programu, dla każdej pary: \textsl{ilości użytkowników i komentarzy} dokonano 100 wykonań algorytmu przyjmując do dalszej analizy wartość średnią dzięki czemu wszelkie wstępne opóźnienia pierwszych wykonań zmniejszają swój wpływ na wynik. Pomiarów dokonano na nieobciążonej innymi zadaniami maszynie stacjonarnej obciążając 1 z 6 dostępnych rdzeni procesora by wpływ działającego systemu był minimalny.\\ \\
@@ -262,6 +292,8 @@ Ze względu na różnice wartości liczby użytkowników \textit{[wierzchołków
 	\includegraphics[width=\textwidth]{Wykres3}
 \end{centering}
 \subsection{Analiza wyników pomiarów}
+Przed interpretacją wyników należy zwrócić uwagę na efekt mający wpływ na zmniejszenie czasu obliczeń. Generowania problemów nie uwzględnia tworzenia nieunikalnych połączeń pomiędzy użytkownikami [może wystąpić kilka połączeń pomiędzy 2] które jest niwelowane po wczytaniu problemu do algorytmu skutkując mniejszym rzeczywistym rozmiarem problemu.
+\\
 Wyniki testów zostały poddane analizie w programie \textit{gnumeric} czego efektem są powyższe wykresy. Ponadto trójki wartości \textit{[liczba użytkowników][liczba komentarzy][czas]} zostały poddane regresji liniowej. Dla regresji wszystkich wartości współczynnik korelacji pomiędzy ilością komentarzy, a czasem \textit{[miarą złożoności problemu]} wynosi : \textit{0.93} co można uznać za złożoność \textit{O(E)} względem liczby krawędzi \textit{E}. Wniosek ten potwierdza obserwacja wykresu.
 \\
 Dla liczności grupy sytuacja jest nieco bardziej złożona ponieważ korelacja dla całego zbioru wartości wynosi \textit{0.66} co nie dowodzi zależności liniowej. Jednak  

@@ -29,7 +29,7 @@ struct Args {
 
 int parse_arguments(Args &args, int argc, const char *argv[]);
 
-void do_profiling(const Args &args);
+void do_profiling(const Args &args, const uint64_t &seed = 12);
 
 void do_output(const Args &args);
 
@@ -75,7 +75,8 @@ void do_profiling(const Args &args, const uint64_t &seed) {
                                             args.count,
                                             l_count,
                                             args.comments);
-        solver.is_fair(prob, time);
+        GraphContainer graph(prob);
+        solver.is_fair(graph, time);
     }
     double avg_time = (time * 1.) / args.iter;
     cout << args.count << ", " << args.comments << ", " << avg_time << '\n';
@@ -121,7 +122,9 @@ void do_input(const Args &args) {
         prob << cout.rdbuf();
     }
 
-    if (solver.is_fair(prob, time)) {
+    GraphContainer graph(prob);
+
+    if (solver.is_fair(graph, time)) {
         cout << "true\n";
     } else {
         cout << "false\n";

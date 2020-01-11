@@ -30,7 +30,7 @@ struct Args {
 
 int parse_arguments(Args &args, int argc, const char *argv[]);
 
-void do_profiling(const Args &args, const uint64_t &seed = 12);
+void do_profiling(const Args &args, const uint64_t &seed);
 
 void do_output(const Args &args);
 
@@ -42,7 +42,7 @@ int main(int argc, const char *argv[]) {
     if (parse_arguments(args, argc, argv) == 0) {
         switch (args.mode) {
             case Args::Mode::profiling:
-                do_profiling(args);
+                do_profiling(args, 12);
                 break;
             case Args::Mode::output:
                 do_output(args);

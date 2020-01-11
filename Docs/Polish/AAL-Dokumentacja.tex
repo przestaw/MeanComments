@@ -137,7 +137,7 @@ Każdy komentujący jest reprezentowany przez wierzchołek grafu.
 \item
 Komentarz adresowany do innego użytkownika jest reprezentowany przez krawędź w grafie.
 \item
-Wiele komentarzy pomiędzy dwoma użytkownikami nie jest odwzorowane jako wielokrotne krawędzie lub krawędzie ważone.\\
+Wiele komentarzy pomiędzy dwoma użytkownikami \textbf{nie} jest odwzorowane jako wielokrotne krawędzie lub krawędzie ważone.\\
  \textsl{Istotny jest fakt komunikacji 2 komentujących, a nie jej objętość}
 \item
 Komentarz jest odwzorowany jako krawędź nieskierowana. \\
@@ -150,9 +150,11 @@ Komentarz jest odwzorowany jako krawędź nieskierowana. \\
 \renewcommand{\labelenumi}{\arabic{enumi}}
 \begin{enumerate}
 \item
-Wczytanie listy komentarzy ze standardowego wejścia lub pliku tworząc graf identyfikowany nazwami użytkowników
+Wczytanie listy komentarzy ze standardowego wejścia lub pliku.
 \item
-Usunięcie pętli, wierzchołków nieposiadających oraz powtarzających się krawędzi [np poprzez niedodawanie ich do grafu wynikowego]
+Z problemu tworzony jest graf identyfikowany nazwami użytkowników
+\item
+Usunięcie pętli [połączeń z wierzchołka do niego samego], wierzchołków nieposiadających oraz powtarzających się krawędzi [np poprzez niedodawanie ich do grafu wynikowego]
 \item
 Przejście po wierzchołkach "kolorując" je na przeciwne kolory zaczynając od dowolnego niepokolorowanego. Następne wierzchołki brane z kolejki.
 \renewcommand{\labelenumii}{\Roman{enumii}}
@@ -160,12 +162,16 @@ Przejście po wierzchołkach "kolorując" je na przeciwne kolory zaczynając od 
 \item
 Koloruj wierzchołki sąsiednie na przeciwny kolor. Umieść niepokolorowane wcześniej wierzchołki w kolejce do odwiedzenia.
 \item
-Gdy wierzchołek po drugiej stronie krawędzi jest w tym samym kolorze: \\STOP --> \textsl{Konto jest uczciwe.}
+Gdy wierzchołek po drugiej stronie krawędzi jest w tym samym kolorze: \\
+\textit{Znaleziono nieparzysty cykl w grafie co jest równoznaczne z faktem, że graf nie jest dwudzielny}\\
+STOP --> \textsl{Konto jest uczciwe.}
 \end{enumerate}
 \item
 Usuń pokolorowane wierzchołki.
 \item
-Jeśli graf niepusty: idź do 3 --> \textsl{Przetwarzanie kolejnego spójnego podgrafu},\\ jeśli pusty: KONIEC --> \textsl{Konto nie jest uczciwe}
+Jeśli graf niepusty: idź do 3 --> \textsl{Przetwarzanie kolejnego spójnego podgrafu},\\ jeśli pusty: \\
+\textit{Udało się pokolorować graf kolorowaniem dwubarwnym wiec jest on dwudzielny.}\\
+KONIEC --> \textsl{Konto nie jest uczciwe}
 \end{enumerate}
 \subsection{Złożoność Algorytmu}
 \subsubsection{Analiza Złożoności Algorytmu}
@@ -187,8 +193,6 @@ Program do generowania plików z komentarzami zintegrowany z głównym programem
 \textsl{boost::chrono} w celu pomiaru czasu spędzonego przez algorytm na procesorze. 
 \item
 \textsl{CMake} jako narzędzie do zarządzania projektem i jego budowaniem
-\item
-\textsl{doxygen} jako narzędzie do generowania dokumentacji kodu źródłowego
 \end{itemize}
 \subsection{Struktury danych}
 \begin{itemize}
@@ -245,15 +249,13 @@ W przypadku podania rozmiaru jednej z grup równego 0 rozmiary grup są każdora
 \item
 \textit{-h [ - -help ]} - ekran z objaśnieniami
 \item
-\textit{-o [ - -output ]} - plik wyjściowy dla generowanych problemów [przy braku problem jest wypisywany na sdtout]
+\textit{-o [ - -output ]} - plik wyjściowy dla generowanych problemów [przy braku problem jest wypisywany na stdout]
 \item
-\textit{-i [ - -input ] } - plik wejściowy do analizy   
+\textit{-i [ - -input ] } - plik wejściowy do analizy [przy braku problem jest pobierany z stdin]  
 \item
 \textit{--iter\ arg (=1)} - liczba iteracji przy profilowaniu algorytmu
 \item
-\textit{-p [ - -profiling ]} - określa czy algorytm ma być profilowany
-\item
-\textit{-g [ - -generating ]} - określa czy ma zostać wygenerowany problem
+\textit{-m [ --mode ]} - tryb działania programu [1 = rozwiązywanie, 2 = generacja, 3 = profilowanie]
 \item
 \textit{-c [ - -comments\_count (=10)]} - całkowita liczba komentarzy [dla generowanych problemów]
 \item
@@ -301,12 +303,5 @@ obserwując wykres widzimy, że dla odpowiednio dużych wartości stopniowo wyp�
 \\
 Ponieważ zależność pomiędzy złożonością a \textit{E} i \textit{V} jest liniowa to wynikowa złożoność może przedstawiać się jako \textit{O(V*E)} lub \textit{O(V+E)}. Analiza z użyciem regresji liniowej dla 2 zmiennych, próbek o liczbie użytkowników większej od 250 daje zbieżność na poziomie \textit{0.97} 
 \\ 
-Podsumowując: przeprowadzony eksperyment dowodzi, że zaproponowany algorytm ma pesymistyczna złożoność \textit{O(V+E)}
-\clearpage  
-\section{Dokumentacja kodu źródłowego - \textit{English}}
-\subsection{Class Index}
-\input{annotated}
-\subsection{Class Documentation}
- \input{classGenerator}
- \input{classSolver}  
+Podsumowując: przeprowadzony eksperyment dowodzi, że zaproponowany algorytm ma pesymistyczna złożoność \textit{O(V+E)} 
 \end{document}

@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-set(program ${PROJECT_NAME}-program)
 
-add_executable(${program} "main.cpp" Generator.cpp ../include/Generator.h Solver.cpp ../include/Solver.h GraphContainer.cpp ../include/GraphContainer.h)
+cmake_policy(SET CMP0069 NEW)
+include(CheckIPOSupported)
+check_ipo_supported()
 
-target_link_libraries(${program} ${EXTERNAL_LIBS})
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+add_library(${LIBRARY} ${LIB_SRC} ${LIB_SRC})
+
+add_dependencies(${LIBRARY} ${CHECK})

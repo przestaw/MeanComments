@@ -192,7 +192,8 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
                     break;
                 default:
                     throw error("Unsupported mode !\nSupported modes are : "
-                                "\n\t[1 = solving, 2 = generation, 3 = profiling]");
+                                "\n[1 = solving, 2 = generation, 3 = profiling]"
+                                "\nUse --help or -h option to show available arguments");
             }
         }
     } catch (const error &ex) {

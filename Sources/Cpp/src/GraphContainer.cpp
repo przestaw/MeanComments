@@ -12,17 +12,22 @@ using std::string;
 using std::vector;
 using std::list;
 using std::map;
+using boost::is_any_of;
+
+using boost::split;
 using Node = GraphContainer::Node;
 
-GraphContainer::Node::Node(uint64_t id)
-        : id(id), node_color(Color::not_visited) {}
+GraphContainer::Node::Node(uint64_t id_c)
+        : id(id_c), node_color(Color::not_visited) {}
 
 GraphContainer::GraphContainer(std::stringstream &problem_instance) {
     string line;
     vector<string> tokens;
     while (getline(problem_instance, line)) {
-        boost::split(tokens, line, boost::is_any_of(" :@#"), boost::token_compress_on);
-        add_edge_by_names(tokens[1], tokens[2]);
+        if (line.find('@') != std::string::npos) {
+            split(tokens, line, is_any_of(" :@#"), boost::token_compress_on);
+            add_edge_by_names(tokens[1], tokens[2]);
+        }
     }
 }
 
@@ -30,8 +35,10 @@ GraphContainer::GraphContainer(const std::vector<string> &problem_instance) {
     string name_one, name_two;
     vector<string> tokens;
     for (const string &line : problem_instance) {
-        boost::split(tokens, line, boost::is_any_of(" :@#"), boost::token_compress_on);
-        add_edge_by_names(tokens[1], tokens[2]);
+        if (line.find('@') != std::string::npos) {
+            split(tokens, line, is_any_of(" :@#"), boost::token_compress_on);
+            add_edge_by_names(tokens[1], tokens[2]);
+        }
     }
 }
 

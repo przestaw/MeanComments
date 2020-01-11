@@ -4,6 +4,14 @@
 
 #include "Generator.h"
 
+Generator::Generator(uint64_t seed, std::initializer_list<string> names_list) : randomEngine(seed) {
+    if (names_list.size() > 2) {
+        names = names_list;
+    } else {
+        throw std::length_error("Too few names one the list");
+    }
+}
+
 Generator::Generator(std::initializer_list<string> names_list) : randomEngine(std::random_device{}()) {
     if (names_list.size() > 2) {
         names = names_list;
@@ -121,4 +129,8 @@ std::stringstream Generator::generate_instance_output(vector<string> &problem_in
     std::for_each(problem_instance.begin(), problem_instance.end(), [&ret]
             (string &line) { ret << line; });
     return ret;
+}
+
+uint64_t Generator::random_unsigned() {
+    return randomEngine();
 }

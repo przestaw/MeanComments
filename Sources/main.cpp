@@ -22,6 +22,7 @@ struct Args {
     uint64_t count = 0;
     uint64_t comments = 0;
     uint64_t iter = 1;
+    uint64_t seed = 0;
     bool fairness = false;
     bool use_file = false;
     bool rand_group_count = false;
@@ -42,7 +43,7 @@ int main(int argc, const char *argv[]) {
     if (parse_arguments(args, argc, argv) == 0) {
         switch (args.mode) {
             case Args::Mode::profiling:
-                do_profiling(args, 12);
+                do_profiling(args, args.seed);
                 break;
             case Args::Mode::output:
                 do_output(args);
@@ -56,7 +57,7 @@ int main(int argc, const char *argv[]) {
 }
 
 void do_profiling(const Args &args, const uint64_t &seed) {
-    Generator generator;
+    Generator generator(seed);
     Solver solver;
     uint64_t time = 0;
     uint64_t l_count = 0;
@@ -69,7 +70,7 @@ void do_profiling(const Args &args, const uint64_t &seed) {
 
     for (uint64_t i = 0; i < args.iter; ++i) {
         if (args.rand_group_count) {
-            l_count = randomEngine() % (7 * args.count / 10) + (3 * args.count / 10) + 1;
+            l_count = generator.random_unsigned() % (7 * args.count / 10) + (3 * args.count / 10) + 1;
         }
         vector<string> prob =
                 generator.generate_instance(args.fairness,
@@ -145,7 +146,8 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
                 ("output,o", value<string>(), "Output file, leave blank to output to stdout")
                 ("input,i", value<string>(), "Input file")
                 ("mode,m", value<uint16_t>()->default_value(0),
-                 "Mode in which program runs [1 = solving (default), 2 = generation, 3 = profiling]");
+                 "Mode in which program runs [1 = solving (default), 2 = generation, 3 = profiling]")
+                ("seed,s", value<uint64_t>()->default_value(0), "Seed for generation of problem instances");
 
         variables_map vm;
         store(parse_command_line(argc, argv, desc), vm);
@@ -161,6 +163,12 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
             args.group_count = vm["group_count"].as<uint64_t>();
             args.comments = vm["comments_count"].as<uint64_t>();
             args.iter = vm["iter"].as<uint64_t>();
+            args.seed = vm["seed"].as<uint64_t>();
+            if (!args.seed) {
+                // random value form platform specific generator,
+                // eg /dev/random
+                args.seed = std::random_device()();
+            }
 
             switch (vm["mode"].as<uint16_t>()) {
                 case 1:
@@ -176,10 +184,8 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
                         args.filename = vm["output"].as<std::string>();
                     }
                     if (args.group_count == 0) {
-                        // random value form platform specific generator,
-                        // eg /dev/random
                         args.group_count =
-                                std::random_device()()
+                                std::mt19937_64(args.seed)()
                                 % (7 * args.count / 10) + (3 * args.count / 10) + 1;
                     }
                     break;

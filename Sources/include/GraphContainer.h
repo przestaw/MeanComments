@@ -46,10 +46,22 @@ public:
         std::vector<uint64_t> adjacent; //!< adjacent nodes - describes edges
     };
 
+    /**
+     * Constructs graph by parsing problem_instance
+     * @param problem_instance vector of lines describing problem
+     */
     GraphContainer(const std::vector<std::string> &problem_instance);
 
+    /**
+    * Constructs graph by parsing problem_instance
+    * @param problem_instance vector of lines describing problem
+    */
     GraphContainer(std::stringstream &problem_instance);
 
+    /**
+     * Returns a copy to keep object valid even if algorithm run on it
+     * @return copy of internal graph representation
+     */
     std::vector<Node> getNodes();
 
 private:

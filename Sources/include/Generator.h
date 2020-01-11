@@ -23,6 +23,13 @@ class Generator {
 public:
     /**
      * Constructor for the generator. Wraps random number generator and basic list of names for login creation. Stateless excluding RNG state.
+     * @param seed seed for the random engine
+     * @param names_list list of names to be used, default is list of polish names from wikipedia.org
+     */
+    Generator(uint64_t seed, std::initializer_list<string> names_list = NAMES__ALL);
+
+    /**
+     * Constructor for the generator. Wraps random number generator and basic list of names for login creation. Stateless excluding RNG state.
      * @param names_list list of names to be used, default is list of polish names from wikipedia.org
      */
     Generator(std::initializer_list<string> names_list = NAMES__ALL);
@@ -54,6 +61,12 @@ public:
      * @return problem instance in a vector
      */
     vector<string> generate_instance(bool fair, uint64_t users_count, uint64_t l_group_count, uint64_t comments_count);
+
+    /**
+     * Takes use of class RNG
+     * @return random unsigned integer
+     */
+    inline uint64_t random_unsigned();
 
 private:
     /**

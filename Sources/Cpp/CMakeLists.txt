@@ -32,6 +32,6 @@ add_subdirectory("test")
 
 add_executable(${EXECUTABLE} main.cpp)
 
-add_dependencies(${EXECUTABLE} ${CHECK})
+add_dependencies(${EXECUTABLE} ${CHECK} ${LIBRARY})
 
 target_link_libraries(${EXECUTABLE} ${LIBRARY} ${EXTERNAL_LIBS})

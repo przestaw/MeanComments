@@ -2,15 +2,15 @@
 *Doxygen/
 .idea/*
 [Bb]in/*
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-[Oo]bj/
-[Ll]og/
+[Dd]ebug/*
+[Dd]ebugPublic/*
+[Rr]elease/*
+[Rr]eleases/*
+[Oo]bj/*
+[Ll]og/*
 
 #CMake files
-CMakeFiles/
+CMakeFiles/*
 cmake*
 *.cmake
 CMakeCache.txt

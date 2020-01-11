@@ -7,8 +7,9 @@
 
 using std::vector;
 using std::string;
+using std::cin;
 using std::cout;
-using std::endl;
+using std::cerr;
 
 using namespace boost::program_options;
 
@@ -119,7 +120,7 @@ void do_input(const Args &args) {
             return; // we have nothing to solve
         }
     } else {
-        prob << cout.rdbuf();
+        //prob << cin.rdbuf();
     }
 
     GraphContainer graph(prob);
@@ -161,8 +162,7 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
             args.comments = vm["comments_count"].as<uint64_t>();
             args.iter = vm["iter"].as<uint64_t>();
 
-            switch (vm["users_count"].as<uint16_t>()) {
-                case 0:
+            switch (vm["mode"].as<uint16_t>()) {
                 case 1:
                     args.mode = Args::Mode::input;
                     if (vm.count("input")) {
@@ -196,7 +196,8 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
             }
         }
     } catch (const error &ex) {
-        std::cerr << ex.what() << " !\n";
+        cerr << ex.what() << " !\n";
         return -1;
     }
+    return 0;
 }

@@ -8,7 +8,7 @@ Szczegóły algorytmu i zadania w dokumentacji *.pdf
 
 ## Opis użytkowania
 Program umożliwia profilowanie algorytmu, generowanie oraz rozwiazywanie problemów.
-W przypadku nie podania żadnego trybu działania lub opcji -h domyslnie wybierana jest opcja generowania problemów.
+W przypadku nie podania żadnego trybu działania lub opcji -h wyświetlona bedzie lista trybów.
 W przypadku podania rozmiaru jednej z grup równego 0 [--group_count] rozmiary grup sa  ̨ każdorazowo losowane.
 
 ### Parametry

@@ -154,7 +154,7 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
         /* Parse options */
         if (vm.count("help")) {
             std::cout << desc << '\n';
-            return 1;
+            return 1; // help only
         } else {
             args.fairness = vm["fairness"].as<bool>();
             args.count = vm["users_count"].as<uint64_t>();
@@ -195,10 +195,10 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
                                 "\n[1 = solving, 2 = generation, 3 = profiling]"
                                 "\nUse --help or -h option to show available arguments");
             }
+            return 0; //sucess
         }
     } catch (const error &ex) {
         cerr << ex.what() << " !\n";
-        return -1;
+        return -1; //error
     }
-    return 0;
 }

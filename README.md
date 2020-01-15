@@ -1,4 +1,3 @@
-Stawczyk Przemysław 293153
 # Analiza Algorytmu
 
 ## Temat projektu :

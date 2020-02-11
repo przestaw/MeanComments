@@ -53,6 +53,7 @@ int main(int argc, const char *argv[]) {
                 break;
         }
     }
+    
     return 0;
 }
 
@@ -63,14 +64,14 @@ void do_profiling(const Args &args, const uint64_t &seed) {
     uint64_t l_count = 0;
 
     if (!args.rand_group_count) {
-        l_count = args.rand_group_count;
+        l_count = args.group_count;
     }
 
     std::mt19937_64 randomEngine(seed);
 
     for (uint64_t i = 0; i < args.iter; ++i) {
         if (args.rand_group_count) {
-            l_count = generator.random_unsigned() % (7 * args.count / 10) + (3 * args.count / 10) + 1;
+            l_count = (generator.random_unsigned() % (7 * args.count / 10) + (3 * args.count / 10))+ 1;
         }
         vector<string> prob =
                 generator.generate_instance(args.fairness,
@@ -108,8 +109,8 @@ void do_output(const Args &args) {
 void do_input(const Args &args) {
     Solver solver;
     uint64_t time = 0; //for compatibility
-
     std::stringstream prob;
+
     if (args.use_file) {
         std::fstream file;
         try {
@@ -121,7 +122,11 @@ void do_input(const Args &args) {
             return; // we have nothing to solve
         }
     } else {
-        //prob << cin.rdbuf();
+        string line;
+        while (!cin.eof()) {
+            getline(cin, line);
+            prob << line << '\n';
+        }
     }
 
     GraphContainer graph(prob);
@@ -167,13 +172,14 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
             if (!args.seed) {
                 // random value form platform specific generator,
                 // eg /dev/random
-                args.seed = std::random_device()();
+                args.seed = std::random_device()() + 1;
             }
 
             switch (vm["mode"].as<uint16_t>()) {
                 case 1:
                     args.mode = Args::Mode::input;
                     if (vm.count("input")) {
+                        args.use_file = true;
                         args.filename = vm["input"].as<std::string>();
                     }
                     break;
@@ -185,8 +191,8 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
                     }
                     if (args.group_count == 0) {
                         args.group_count =
-                                std::mt19937_64(args.seed)()
-                                % (7 * args.count / 10) + (3 * args.count / 10) + 1;
+                                (std::mt19937_64(args.seed)()
+                                % (7 * args.count / 10) + (3 * args.count / 10)) + 1;
                     }
                     break;
                 case 3:
@@ -194,7 +200,6 @@ int parse_arguments(Args &args, int argc, const char *argv[]) {
                     if (args.group_count == 0) {
                         args.rand_group_count = true;
                     }
-
                     break;
                 default:
                     throw error("Unsupported mode !\nSupported modes are : "

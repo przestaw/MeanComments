@@ -1,0 +1,29 @@
+X > graf to samo wczytane z pliku > rozdz 1
+
+X > poprawić koniec algorytmu kiedy uczciwe konto -> nieparzysty cykl
+
+X > doxygen -> możn skasować
+
+X > README -> do zrobienia, rozdz 5
+
+X > struktura danych oddzielona od algorytmu
+
+X > testy jednostkowe
+
+X > liczba wierzchołków i gęstość/średnia liczba krawędzi
+
+X > podanie seed do geeratora liczb losowych
+
+X tabelka rosnoąco po wartościach Q -> WAŻNE
+
+Dzień dobry,
+
+Przesyłam projekt z uwzględnieniem sugerowanych zmian:
+-> Poprawki sformuowań opisujących funkcjonalność i algorytm
+-> Dodanie tabeli z wartościami q w dokumentacji
+-> Dodane README.md
+-> Dodane testy jednostkowe [oraz zmiana ogranizacji budowania]
+-> możliwośc podania ziarna dla RNG
+-> wydzielenie klasy przechowującej problem [zwraca kopię w celu możliwości ponownego użycia]
+-> Reorganizacja pliku main.cpp
+-> Usunięcie dokumentacji kodu z pdf

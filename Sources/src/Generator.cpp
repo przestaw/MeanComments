@@ -130,7 +130,3 @@ std::stringstream Generator::generate_instance_output(vector<string> &problem_in
             (string &line) { ret << line; });
     return ret;
 }
-
-uint64_t Generator::random_unsigned() {
-    return randomEngine();
-}

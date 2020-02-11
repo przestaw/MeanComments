@@ -66,7 +66,9 @@ public:
      * Takes use of class RNG
      * @return random unsigned integer
      */
-    inline uint64_t random_unsigned();
+    inline uint64_t random_unsigned(){
+        return randomEngine();
+    }
 
 private:
     /**

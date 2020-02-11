@@ -1,4 +1,3 @@
-Stawczyk Przemysław 293153
 # Analiza Algorytmu
 
 ## Temat projektu :
@@ -52,3 +51,4 @@ po takiej operacji aby zbudować program wystarczy zawołać:
     make AAL-program
 
 skompilowane pliki możan znaleźć w folderze ./bin
+
